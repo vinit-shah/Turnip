@@ -60,7 +60,6 @@ int main()
     // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     glewExperimental = GL_TRUE;
     // Initialize GLEW to setup the OpenGL Function pointers
-    glewInit();
 
     if (glewInit() != GLEW_OK)
     {
@@ -115,28 +114,52 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentshader);
 
-    GLfloat vertices[] = {
-      -0.5f, -0.5f, 0.0f,
-      0.5f, -0.5f, 0.0f,
-      0.0f, 0.5f, 0.0f
+    GLfloat vertices1[] = {
+      -0.5f, 0.5f, 0.0f, //first top point
+      -1.0f, -0.5f, 0.0f, //far left point
+      -0.1f, -0.5f, 0.0f, //middle point down
     };
 
-    GLuint VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    GLfloat vertices2[] = {
+      //Second triangle
+      0.1f, -0.5f, 0.0f,
+      1.0f, -0.5f, 0.0f,
+      0.5f, 0.5f, 0.0f
+    };
 
-    glBindVertexArray(VAO);
+    // GLfloat vertices[] = {
+    //   0.5f, 0.5f, 0.0f, //top right
+    //   0.5f, -0.5f, 0.0f, //Bottom right
+    //   -0.5f, -0.5f, 0.0f,//Bottom left
+    //   -0.5f, 0.5f, 0.0f//top left
+    // };
+    //
+    // GLuint indices [] = {
+    //   0,1,3,
+    //   1,2,3
+    // };
 
-    glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    GLuint VBO[2], VAO[2];
+    glGenVertexArrays(2, VAO);
+    glGenBuffers(2, VBO);
 
+    //first triangle
+    glBindVertexArray(VAO[0]);
+    glBindBuffer(GL_ARRAY_BUFFER,VBO[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
     glBindVertexArray(0);
 
+    //second triangle
+    glBindVertexArray(VAO[1]);
+    glBindBuffer(GL_ARRAY_BUFFER,VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(GLfloat),(GLvoid*)0);
+    glEnableVertexAttribArray(0);
+    glBindVertexArray(0);
+
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     // Game loop
     while (!glfwWindowShouldClose(window))
@@ -151,13 +174,18 @@ int main()
 
         //draw triangle
         glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
+        glBindVertexArray(VAO[0]);
+        glDrawArrays(GL_TRIANGLES,0,3);
+        glBindVertexArray(VAO[1]);
         glDrawArrays(GL_TRIANGLES,0,3);
         glBindVertexArray(0);
 
         // Swap the screen buffers
         glfwSwapBuffers(window);
     }
+    glDeleteVertexArrays(2, VAO);
+    glDeleteBuffers(2,VAO);
+
 
     // Terminate GLFW, clearing any resources allocated by GLFW.
     glfwTerminate();
