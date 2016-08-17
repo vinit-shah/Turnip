@@ -57,7 +57,8 @@ int main()
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
-    Shader myShader("../shaders/shaders.vs", "../shaders/shaders.frag");
+
+    Shader myShader("./shaders/shader.vs", "./shaders/shaders.frag");
 
     GLfloat vertices1[] = {
      0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // Bottom Right
