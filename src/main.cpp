@@ -10,6 +10,10 @@
 // GLFW
 #include <GLFW/glfw3.h>
 #include "../shaders/shaders.h"
+//GLM
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -61,9 +65,9 @@ int main()
     Shader myShader("./shaders/shader.vs", "./shaders/shaders.frag");
 
     GLfloat vertices1[] = {
-     0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // Bottom Right
-    -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // Bottom Left
-     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // Top
+     0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // Bottom Right
+    -0.5f, 0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // Bottom Left
+     0.0f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // Top
     };
 
     GLuint VBO, VAO;
@@ -99,6 +103,13 @@ int main()
 
         //draw triangle
         myShader.Use();
+
+        glm::mat4 transform;
+        transform = glm::translate (transform, glm::vec3(0.5f,-0.5f,0.0f));
+        transform = glm::rotate (transform, (GLfloat)glfwGetTime() * 50.0f,glm::vec3(0.5f,-0.5f,0.0f));
+        GLint transformLoc = glGetUniformLocation(myShader.Program, "transform");
+        glUniformMatrix3fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES,0,3);
         glBindVertexArray(0);
