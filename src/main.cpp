@@ -116,20 +116,25 @@ int main()
 
         //draw triangle
         myShader.Use();
+
         glm::mat4 model;
         model = glm::rotate(model,(GLfloat)glfwGetTime()*50.0f, glm::vec3(1.0f,1.0f,1.0f));
-        GLint modelLoc = glGetUniformLocation(myShader.Program,"model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        // GLint modelLoc = glGetUniformLocation(myShader.Program,"model");
+        // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
         glm::mat4 view;
         view = glm::translate(view, glm::vec3(0.0f, 0.0f,-3.0f));
-        GLint viewLoc = glGetUniformLocation(myShader.Program,"view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        // GLint viewLoc = glGetUniformLocation(myShader.Program,"view");
+        // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
         glm::mat4 projection;
-        projection = glm::perspective(50.0f, (GLfloat)WIDTH/(GLfloat)HEIGHT, 0.1f, 100.0f);
-        GLint projectionLoc = glGetUniformLocation(myShader.Program, "projection");
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        projection = glm::perspective(40.0f, (GLfloat)WIDTH/(GLfloat)HEIGHT, 0.1f, 100.0f);
+        // GLint projectionLoc = glGetUniformLocation(myShader.Program, "projection");
+        // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+        glm::mat4 transform = projection*view*model;
+        GLint transformLoc = glGetUniformLocation(myShader.Program,"transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES,0,12);
