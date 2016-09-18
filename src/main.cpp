@@ -19,7 +19,7 @@
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 // Window dimensions
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint WIDTH = 1000, HEIGHT = 800;
 
 // The MAIN function, from here we start the application and run the game loop
 int main()
@@ -105,10 +105,10 @@ int main()
         myShader.Use();
 
         glm::mat4 transform;
-        transform = glm::translate (transform, glm::vec3(0.5f,-0.5f,0.0f));
-        transform = glm::rotate (transform, (GLfloat)glfwGetTime() * 50.0f,glm::vec3(0.5f,-0.5f,0.0f));
+        transform = glm::translate (transform, glm::vec3(0.0f,0.0f,0.0f));
+        transform = glm::rotate (transform, -1* (GLfloat)glfwGetTime() * 50.0f,glm::vec3(0.0f,0.0f,1.0f));
         GLint transformLoc = glGetUniformLocation(myShader.Program, "transform");
-        glUniformMatrix3fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES,0,3);
