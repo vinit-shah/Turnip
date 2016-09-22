@@ -1,7 +1,5 @@
 //  main.cpp
 //  Turnip
-
-
 #include <iostream>
 
 // GLEW
@@ -9,7 +7,10 @@
 #include <GL/glew.h>
 // GLFW
 #include <GLFW/glfw3.h>
+//Shader
 #include "../shaders/shaders.h"
+//Camera
+#include "../includes/Turnip/camera.hpp"
 //GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -17,9 +18,15 @@
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void doMovements();
 
+GLfloat deltaTime = 0.0f;
+GLfloat lasttime = 0.0f;
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
+
+bool keys[1024];
+Camera myCamera(glm::vec3(0.0f, 0.0f, 3.0f),glm::vec3(0.0f, 0.0f,-1.0f), glm::vec3(0.0f,1.0f,1.0f));
 
 // The MAIN function, from here we start the application and run the game loop
 int main()
@@ -62,6 +69,7 @@ int main()
     glViewport(0, 0, width, height);
 
     glEnable(GL_DEPTH_TEST);
+
 
     Shader myShader("./shaders/shader.vs", "./shaders/shaders.frag");
 
@@ -106,8 +114,14 @@ int main()
     // Game loop
     while (!glfwWindowShouldClose(window))
     {
+        GLfloat currentTime = glfwGetTime();
+        deltaTime = 0.0f;
+        lasttime = 0.0f;
+        deltaTime= currentTime - lasttime;
+        lasttime = currentTime;
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
+        doMovements();
 
         // Render
         // Clear the colorbuffer
@@ -117,20 +131,14 @@ int main()
         //draw triangle
         myShader.Use();
 
+        glm::mat4 view;
+        view = myCamera.getViewMatrix();
+
         glm::mat4 model;
         model = glm::rotate(model,(GLfloat)glfwGetTime()*50.0f, glm::vec3(1.0f,1.0f,1.0f));
-        // GLint modelLoc = glGetUniformLocation(myShader.Program,"model");
-        // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-        glm::mat4 view;
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f,-3.0f));
-        // GLint viewLoc = glGetUniformLocation(myShader.Program,"view");
-        // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
         glm::mat4 projection;
         projection = glm::perspective(40.0f, (GLfloat)WIDTH/(GLfloat)HEIGHT, 0.1f, 100.0f);
-        // GLint projectionLoc = glGetUniformLocation(myShader.Program, "projection");
-        // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
         glm::mat4 transform = projection*view*model;
         GLint transformLoc = glGetUniformLocation(myShader.Program,"transform");
@@ -158,4 +166,31 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     std::cout << key << std::endl;
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
+    if (key>=0 && key < 1024)
+    {
+      if (action == GLFW_PRESS)
+        keys[key] = true;
+      else if (action == GLFW_RELEASE)
+        keys[key] = false;
+    }
+}
+
+void doMovements()
+{
+  if (keys[GLFW_KEY_W])
+  {
+    myCamera.ProcessKeys(FORWARD, deltaTime);
+  }
+  if (keys[GLFW_KEY_S])
+  {
+    myCamera.ProcessKeys(BACKWARD, deltaTime);
+  }
+  if(keys[GLFW_KEY_D])
+  {
+    myCamera.ProcessKeys(RIGHT, deltaTime);
+  }
+  if(keys[GLFW_KEY_A])
+  {
+    myCamera.ProcessKeys(LEFT, deltaTime);
+  }
 }
