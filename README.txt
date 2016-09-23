@@ -1,3 +1,3 @@
 Playing around with Open GL. 
-Tutorial used: learnopengl.com
-Check out the PRISM branch for other cool stuff :)
+To do: 
+1) Abstractions of different shapes
