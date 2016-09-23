@@ -101,7 +101,7 @@ int main()
       4,5,1
     };
     Mesh myMesh(vertices1, indices);
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
     // Game loop
     while (!glfwWindowShouldClose(window))
