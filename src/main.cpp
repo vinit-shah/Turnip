@@ -23,7 +23,7 @@ void doMovements();
 GLfloat deltaTime = 0.0f;
 GLfloat lasttime = 0.0f;
 // Window dimensions
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint WIDTH = 1200, HEIGHT = 1000;
 
 bool keys[1024];
 Camera myCamera(glm::vec3(0.0f, 0.0f, 3.0f),glm::vec3(0.0f, 0.0f,-1.0f), glm::vec3(0.0f,1.0f,1.0f));
@@ -77,18 +77,7 @@ int main()
      0.5f, -0.5f, 0.0f, // Bottom Right
     -0.5f, -0.5f, 0.0f,  // Bottom Left
      0.0f,  0.5f, -0.25,    // Top
-
-    //  0.5f, -0.5f, 0.0f,  // Bottom Right
-    //  -0.5f, -0.5f, 0.0f,   // Bottom Left //bottom face
      0.0f,  -0.5f, -1.0f, //back
-
-    //  0.5f, -0.5f, 0.0f,
-    //  0.0f, -0.5f, -1.0f,
-    //  0.0f, 0.5f, -0.25f,
-     //
-    //  -0.5f, -0.5f, 0.0f,
-    //  0.0f, -0.5f, -1.0f,
-    //  0.0f, 0.5f, -0.25
     };
 
     GLuint indices[] = {
@@ -146,7 +135,7 @@ int main()
         view = myCamera.getViewMatrix();
 
         glm::mat4 model;
-        model = glm::rotate(model,(GLfloat)glfwGetTime()*50.0f, glm::vec3(1.0f,1.0f,1.0f));
+        model = glm::rotate(model,(GLfloat)glfwGetTime()*40.0f, glm::vec3(1.0f,1.0f,1.0f));
 
         glm::mat4 projection;
         projection = glm::perspective(40.0f, (GLfloat)WIDTH/(GLfloat)HEIGHT, 0.1f, 100.0f);

@@ -55,7 +55,7 @@ class Camera
     }
 
   private:
-    GLfloat movementspeed = 0.1f;
+    GLfloat movementspeed = 0.05f;
     mat4 view;
     vec3 cameraPos;
     vec3 cameraFront;
