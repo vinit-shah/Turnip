@@ -7,16 +7,13 @@
 #include <GL/glew.h>
 // GLFW
 #include <GLFW/glfw3.h>
-<<<<<<< HEAD
-#include "../includes/shaders/shaders.h"
-=======
 //Shader
 #include "../includes/shaders/shaders.h"
 //Camera
 #include "../includes/Turnip/camera.hpp"
 
 #include "../includes/Turnip/mesh.hpp"
->>>>>>> PRISM
+
 //GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -76,11 +73,6 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-<<<<<<< HEAD
-    Shader myShader("./includes/shaders/shader.vs", "./includes/shaders/shaders.frag");
-=======
->>>>>>> PRISM
-
     Shader myShader("./includes/shaders/shader.vs", "./includes/shaders/shaders.frag");
 
     std::vector<GLfloat> vertices1 = {
@@ -109,7 +101,7 @@ int main()
       4,5,1
     };
     Mesh myMesh(vertices1, indices);
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     // Game loop
     while (!glfwWindowShouldClose(window))
