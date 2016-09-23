@@ -10,5 +10,5 @@ uniform mat4 transform;
 void main()
 {
     gl_Position = transform * vec4(position, 1.0f);
-    ourColor = vec3(position);
+    ourColor = vec3(1.0f,1.0f,0.2f);
 }

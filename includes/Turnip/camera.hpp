@@ -23,11 +23,11 @@ enum CameraDirection {
 class Camera
 {
   public:
-    Camera(vec3 cameraPos, vec3 cameraFront, vec3 cameraUp)
+    Camera(vec3 Pos, vec3 Front, vec3 Up)
     {
-      this->cameraPos = cameraPos;
-      this->cameraFront = cameraFront;
-      this->cameraUp = cameraUp;
+      cameraPos = Pos;
+      cameraFront = Front;
+      cameraUp = Up;
     }
     mat4 getViewMatrix()
     {
@@ -55,7 +55,7 @@ class Camera
     }
 
   private:
-    GLfloat movementspeed = 0.05f;
+    GLfloat movementspeed = 5.0f;
     mat4 view;
     vec3 cameraPos;
     vec3 cameraFront;
