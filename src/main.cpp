@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 // GLFW
 #include <GLFW/glfw3.h>
-#include "../shaders/shaders.h"
+#include "../includes/shaders/shaders.h"
 //GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -62,7 +62,7 @@ int main()
     glViewport(0, 0, width, height);
 
 
-    Shader myShader("./shaders/shader.vs", "./shaders/shaders.frag");
+    Shader myShader("./includes/shaders/shader.vs", "./includes/shaders/shaders.frag");
 
     GLfloat vertices1[] = {
      0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // Bottom Right

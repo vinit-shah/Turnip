@@ -5,7 +5,7 @@
 
 #include <GL/glew.h>
 
-#include "../shaders/shaders.h"
+#include "../includes/shaders/shaders.h"
 Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
 {
   std::string vertexCode;
